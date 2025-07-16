@@ -1,0 +1,64 @@
+@use "@shared/styles/colors" as *;
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-bg;
+  animation: fadeInUp 1s ease-out forwards;
+  padding: 2rem;
+  gap: 1.5rem;
+
+  .homeTitle {
+    text-align: center;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: $color-header;
+    text-shadow: $shadow;
+    margin: 0;
+  }
+
+  .homeText {
+    max-width: 600px;
+    color: darken($color-header, 10%);
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    text-align: center;
+    margin: 0 0 2rem;
+    line-height: 1.5;
+  }
+
+  .homeLink {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    font-size: 1.1rem;
+    background-color: $color-header;
+    color: #fff;
+    border-radius: 2rem;
+    text-decoration: none;
+    box-shadow: $shadow;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    border: none;
+
+    &:hover,
+    &:focus {
+      background-color: lighten($color-header, 10%);
+      transform: scale(1.05);
+      outline: none;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+@use "@shared/styles/colors" as *;
+
+.submitClass {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    background-color: $color-header;
+    color: #fff;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: lighten($color-header, 10%);
+    }
+}
+
+.secondaryBtn {
+    display: block;
+    text-align: center;
+    text-transform: none;
+    font-size: 0.95rem;
+    color: $color-header;
+    margin-top: 0.5rem;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
