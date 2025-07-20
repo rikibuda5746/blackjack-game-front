@@ -1,0 +1,20 @@
+@use "@shared/styles/colors" as *;
+
+.submit {
+  margin: 1.5rem 0 1rem;
+  font-weight: 600;
+}
+
+.secondaryBtn {
+  display: block;
+  text-align: center;
+  text-transform: none;
+  font-size: 0.95rem;
+  color: $color-header;
+  margin-top: 0.5rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
