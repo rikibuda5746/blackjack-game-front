@@ -1,13 +1,12 @@
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styles from './Registration.module.scss';
 import { useForm } from 'react-hook-form';
 import { useRegisterMutation } from '@features/auth/api/authApi';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '@features/auth/store/authSlice';
+import { setCredentials, logout } from '@features/auth/store/authSlice';
 import AuthForm from '../shared/AuthForm';
 import AuthField from '../shared/AuthField';
-import storageService from '@app/services/storageService';
 import { useState } from 'react';
 
 type registerFormData = {
@@ -22,6 +21,8 @@ const Register = () => {
   const [registerMutation] = useRegisterMutation();
   const dispatch = useDispatch();
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onSubmitFunction = async (data: registerFormData) => {
     try {
@@ -35,9 +36,12 @@ const Register = () => {
         throw new Error('Invalid response: missing tokens');
       }
       dispatch(setCredentials(registerResponse)); 
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
+
     } catch (err: any) {
       setError(err?.data?.error?.message || err?.message || 'Registration failed. Please try again.');
-      storageService.clearTokens();
+      dispatch(logout()); 
     }
   };
 

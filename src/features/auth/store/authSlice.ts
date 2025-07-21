@@ -4,6 +4,7 @@ import storageService from '@app/services/storageService'
 
 const initialState: AuthState = {
   user: null,
+  isAuthenticated : false
 }
 
 export const authSlice = createSlice({
@@ -16,10 +17,13 @@ export const authSlice = createSlice({
         accessToken: action.payload.accessToken,
         refreshToken: action.payload.refreshToken
       })
+      state.isAuthenticated = true
+      console.log({isAuthenticated: state.isAuthenticated});
     },
     logout: (state) => {
       state.user = null
       storageService.clearTokens()
+      state.isAuthenticated = false
     },
   },
 })
