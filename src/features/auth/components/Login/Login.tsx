@@ -1,14 +1,13 @@
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import styles from './Login.module.scss';
 import { useForm } from 'react-hook-form';
 import { useLoginMutation } from '@features/auth/api/authApi';
 import { useDispatch } from 'react-redux';
-import { setCredentials } from '@features/auth/store/authSlice';
+import { setCredentials, logout } from '@features/auth/store/authSlice';
 import AuthForm from '../shared/AuthForm';
 import AuthField from '../shared/AuthField';
-import storageService from '@app/services/storageService';
 
 type loginFormData = {
   email: string;
@@ -20,6 +19,8 @@ const Login = () => {
   const [login] = useLoginMutation();
   const dispatch = useDispatch();
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const onSubmitFunction = async (data: loginFormData) => {
     try {
@@ -33,10 +34,12 @@ const Login = () => {
       }
     
       dispatch(setCredentials(loginResponse));
+      const from = location.state?.from?.pathname || "/";
+      navigate(from, { replace: true });
 
     } catch (err: any) {
       setError(err?.data?.error?.message || err?.message || 'Login failed. Please try again.');
-      storageService.clearTokens();
+      dispatch(logout());
     }
   };
 
