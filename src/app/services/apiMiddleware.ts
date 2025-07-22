@@ -2,6 +2,7 @@ import { fetchBaseQuery, BaseQueryFn, FetchArgs, FetchBaseQueryError } from '@re
 import storageService from './storageService';
 import { authApi } from '@features/auth/api/authApi';
 import { RefreshTokenRequest, RefreshTokenResponse } from '@features/auth/types';
+import { logout } from '@features/auth/store/authSlice';
 
 const refreshToken = async (api: any): Promise<string | null> => {
   try {
@@ -46,10 +47,8 @@ export const apiMiddleware: BaseQueryFn<
     try {
       await refreshToken(api);
     } catch (error) {
-      // to do
       console.error('Failed to refresh token:', error);
-      storageService.clearTokens();
-    //   window.location.href = '/login';
+      api.dispatch(logout());
       return result;
     }
     result = await baseQuery(args, api, extraOptions);
