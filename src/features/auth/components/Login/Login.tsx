@@ -34,7 +34,7 @@ const Login = () => {
       }
     
       dispatch(setCredentials(loginResponse));
-      const from = location.state?.from?.pathname || "/";
+      const from = location.state?.from?.pathname || "/game";
       navigate(from, { replace: true });
 
     } catch (err: any) {
