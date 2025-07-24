@@ -14,12 +14,15 @@ const refreshToken = async (api: any): Promise<string | null> => {
     const result = await api.dispatch(
       authApi.endpoints.refreshToken.initiate(refreshRequest)
     );
+    if ('error' in result) {
+      throw result.error;
+    }
     if (result.data) {
       const data = result.data as RefreshTokenResponse;
       storageService.setTokens({  accessToken: data.accessToken, refreshToken: data.refreshToken});
     }
   } catch (error) {
-    console.error('Failed to refresh token:', error);
+    console.error('Failed to refresh token in refresh function:', error);
     throw error;
   }
   return null;
@@ -53,5 +56,6 @@ export const apiMiddleware: BaseQueryFn<
     }
     result = await baseQuery(args, api, extraOptions);
   }
+  console.log('result', result);
   return result;
 }; 
