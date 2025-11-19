@@ -1,42 +1,20 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@app/store/store';
-import { useStartGameMutation, useHitMutation, useStandMutation } from '../api/gameApi';
-import { setGame, clearGame } from '../store/gameSlice';
+
 import { GameStatus } from '../types/apiTypes';
+import { useGame } from '../hooks/useGame';
 import styles from './Game.module.scss';
 
 const Game = () => {
-  const dispatch = useDispatch();
-  const game = useSelector((state: RootState) => state.game.currentGame);
 
-  const [bet, setBet] = useState(10);
-  const [error, setError] = useState('');
-  const [startGame] = useStartGameMutation();
-  const [hit] = useHitMutation();
-  const [stand] = useStandMutation();
-
-  const handleStart = async () => {
-    try {
-      const response = await startGame({ betAmount: bet }).unwrap();
-      dispatch(setGame(response));
-    }
-    catch (err: any) {
-      setError('Failed to start game. Please try again.');
-    }
-  };
-
-  const handleHit = async () => {
-    if (!game) return;
-    const response = await hit({ gameId: game.gameId }).unwrap();
-    dispatch(setGame(response));
-  };
-
-  const handleStand = async () => {
-    if (!game) return;
-    const response = await stand({ gameId: game.gameId }).unwrap();
-    dispatch(setGame(response));
-  };
+  const {
+    game,
+    bet,
+    setBet,
+    error,
+    start,
+    hit,
+    stand,
+    newGame
+  } = useGame();
 
   const getCardClass = (card: string) => {
     const suit = card.slice(-1);
@@ -74,7 +52,7 @@ const Game = () => {
               max="1000"
             />
           </div>
-          <button onClick={handleStart} className={styles.btnPrimary}>
+          <button onClick={start} className={styles.btnPrimary}>
             Start Game
           </button>
         </div>
@@ -130,10 +108,10 @@ const Game = () => {
 
           {game.status === GameStatus.PLAYING && (
             <div className={styles.actionButtons}>
-              <button onClick={handleHit} className={styles.btnSecondary}>
+              <button onClick={hit} className={styles.btnSecondary}>
                 Hit
               </button>
-              <button onClick={handleStand} className={styles.btnDanger}>
+              <button onClick={stand} className={styles.btnDanger}>
                 Stand
               </button>
             </div>
@@ -141,7 +119,7 @@ const Game = () => {
 
           {game.status === GameStatus.FINISHED && (
             <div className={styles.actionButtons}>
-              <button onClick={() => dispatch(clearGame())} className={styles.btnNewGame}>
+              <button onClick={newGame} className={styles.btnNewGame}>
                 New Game
               </button>
             </div>
