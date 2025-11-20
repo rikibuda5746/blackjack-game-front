@@ -1,0 +1,79 @@
+@use "../../../shared/styles/colors" as *;
+
+.tableContainer {
+  width: 100%;
+  overflow-x: auto;
+  padding: 16px;
+  background: $color-bg;
+  border-radius: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: $shadow;
+  font-family: "Inter", sans-serif;
+}
+
+/* HEADER */
+thead {
+  background: $color-header;
+  color: white;
+
+  th {
+    padding: 14px 18px;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: left;
+    letter-spacing: 0.4px;
+
+    &:first-child {
+      border-top-left-radius: 12px;
+    }
+
+    &:last-child {
+      border-top-right-radius: 12px;
+    }
+  }
+}
+
+/* ROWS */
+tbody {
+  tr {
+    background: white;
+    transition: background 0.15s ease, transform 0.1s ease;
+
+    &:hover {
+      background: rgba($color-primary, 0.07);
+    }
+  }
+
+  td {
+    padding: 14px 18px;
+    font-size: 15px;
+    color: #333;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+}
+
+/* CLICKABLE ROW */
+.clickableRow {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba($color-primary, 0.1);
+  }
+}
+
+/* CELL HOVER EFFECT */
+.bodyCell {
+  transition: background 0.1s ease;
+
+  &:hover {
+    background: rgba($color-primary, 0.06);
+  }
+}

@@ -1,4 +1,5 @@
 import {useReactTable,getCoreRowModel,flexRender,ColumnDef} from '@tanstack/react-table';
+import styles from './Table.module.scss';
 
 export interface GenericTableProps<T> {
   data: T[];
@@ -13,7 +14,7 @@ const Table = <T extends object>({ data, columns }: GenericTableProps<T>) => {
   });
 
   return (
-    <table>
+    <table className={styles.table}>
       <thead>
         {table.getHeaderGroups().map(headerGroup => (
           <tr key={headerGroup.id}>
